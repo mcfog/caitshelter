@@ -1,9 +1,18 @@
 (function(){
   var slice$ = [].slice;
   define(['view/main', 'backbone', 'lodash'], function(MainView, Backbone, _){
-    var Router, x0$, app, i$, ref$, len$, name, x1$;
+    var that, Router, x0$, app, i$, ref$, len$, name, x1$;
     if (!localStorage.hasOwnProperty('server')) {
-      return location.href = "index.html";
+      switch (that = location.host) {
+      case 'caitshelter.ap01.aws.af.cm':
+        localStorage.server = that;
+        break;
+      case 'cait.aws.af.cm':
+        localStorage.server = that;
+        break;
+      default:
+        return location.href = "index.html";
+      }
     }
     Router = Backbone.Router.extend({
       go: function(){
