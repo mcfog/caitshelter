@@ -1,0 +1,5 @@
+define(["dust-runtime"],function (dust) {
+	// page/rune.dust
+	(function(){dust.register("page/rune",body_0);function body_0(chk,ctx){return chk.partial("partial/deckNav",ctx,{"cur":"rune"}).write("<div j-field=\".Runes\"><div class=\"row\">").section(ctx.get("Runes"),ctx,{"else":body_1,"block":body_2},null).write("</div></div><div style=\"padding-bottom: 70px;\"></div><nav class=\"navbar navbar-default navbar-fixed-bottom\" role=\"navigation\"><ul class=\"nav navbar-nav\"> ").partial("partial/runeFilter",ctx,null).write("</ul></nav>");}function body_1(chk,ctx){return chk.write("没有符合条件的符文");}function body_2(chk,ctx){return chk.write("<div class=\"col-md-1 col-sm-2 col-xs-3\"><div class=\"thumbnail\">").partial("partial/rune",ctx,{"rune":ctx.getPath(true,[])}).write("</div></div>");}return body_0;})();
+	return "page/rune";
+});

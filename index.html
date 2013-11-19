@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>妖猫之宿丶</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <script>
+  function choose(host) {
+    localStorage.server = host;
+    location.href = "mkhx.html";
+  }
+  </script>
+</head>
+<body>
+
+<h2>服务器选择</h2>
+
+<a href="javascript:choose('caitshelter.ap01.aws.af.cm')">新加坡服务器</a>
+<hr>
+<a href="javascript:choose('cait.aws.af.cm')">美国服务器</a>
+<hr>
+<a href="javascript:choose(prompt('host'))">自定义...</a>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+define(["dust-runtime"],function (dust) {
+	// page/my/rune.dust
+	(function(){dust.register("page/my/rune",body_0);var blocks={'body':body_1};function body_0(chk,ctx){ctx=ctx.shiftBlocks(blocks);return chk.partial("layout/default",ctx,null);}function body_1(chk,ctx){ctx=ctx.shiftBlocks(blocks);return chk.partial("partial/myNav",ctx,{"cur":"rune"}).write("<div j-field=\".Runes\"><div class=\"row\">").section(ctx.get("Runes"),ctx,{"else":body_2,"block":body_3},null).write("</div></div><div style=\"padding-bottom: 70px;\"></div><nav class=\"navbar navbar-default navbar-fixed-bottom\" role=\"navigation\"><ul class=\"nav navbar-nav\"> ").partial("partial/runeFilter",ctx,null).write("</ul></nav>");}function body_2(chk,ctx){ctx=ctx.shiftBlocks(blocks);return chk.write("没有符合条件的符文");}function body_3(chk,ctx){ctx=ctx.shiftBlocks(blocks);return chk.write("<div class=\"col-md-1 col-sm-2 col-xs-3\"><div class=\"thumbnail\">").partial("partial/rune",ctx,{"rune":ctx.getPath(true,[])}).write("</div></div>");}return body_0;})();
+	return "page/my/rune";
+});
