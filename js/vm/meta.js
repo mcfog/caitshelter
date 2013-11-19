@@ -7,7 +7,7 @@
         if (that = this._card) {
           return that;
         }
-        return this._card = Joint.$.getJSON('/meta/allcard.json').then(function(it){
+        return this._card = Joint.$.getJSON('meta/allcard.json').then(function(it){
           return _.indexBy(it.Cards, 'CardId');
         });
       },
@@ -16,7 +16,7 @@
         if (that = this._skill) {
           return that;
         }
-        return this._skill = Joint.$.getJSON('/meta/allskill.json').then(function(it){
+        return this._skill = Joint.$.getJSON('meta/allskill.json').then(function(it){
           return _.indexBy(it.Skills, 'SkillId');
         });
       },
@@ -25,7 +25,7 @@
         if (that = this._rune) {
           return that;
         }
-        return this._rune = Joint.$.getJSON('/meta/allrune.json').then(function(it){
+        return this._rune = Joint.$.getJSON('meta/allrune.json').then(function(it){
           return _.indexBy(it.Runes, 'RuneId');
         });
       }
