@@ -39,6 +39,12 @@
           Joint._.defer(function(){
             return this$.sync(evt);
           });
+        }, function(it){
+          if (Joint._.isString(it) && it.indexOf('missing ghost') === 0) {
+            alert('登录失效，请重新登录');
+            location.reload();
+            throw null;
+          }
         });
         return x0$;
       },

@@ -51,6 +51,7 @@
               }
             }());
           });
+          it.cd = new Date(Date.now() + it.Countdown * 1000).toLocaleTimeString();
           return this$.updateInfo(it);
         });
       },

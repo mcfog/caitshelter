@@ -6,7 +6,10 @@
         'click .btn-add': 'onAddAccount',
         'click .btn-del': 'onDelAccount',
         'click .btn-login': 'onLogin',
-        'click .btn-enter': 'onEnter'
+        'click .btn-enter': 'onEnter',
+        'click .nickname': function(it){
+          this.$('.nickname').not(it.currentTarget).popover('hide');
+        }
       },
       initialize: function(){
         var x0$, this$ = this;
@@ -30,7 +33,9 @@
           }
         });
         this.sync('accounts', x0$);
-        return x0$;
+        return this.on('$J:render:full:done', function(){
+          return this$.$('.nickname').popover();
+        });
       },
       serializeData: function(){
         var x0$;

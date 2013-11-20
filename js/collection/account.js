@@ -1,8 +1,7 @@
 (function(){
-  define(['collection/base', 'model/account'], function(Base, AccModel){
+  define(['collection/base'], function(Base){
     return Base.extend({
-      name: 'account',
-      model: AccModel
+      name: 'account'
     });
   });
 }).call(this);
