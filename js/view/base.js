@@ -10,6 +10,10 @@
       'partial/deck': ['partial/card', 'partial/rune']
     };
     x0$ = Base = $J.View.extend({
+      initialize: function(){
+        $J.View.prototype.initialize.apply(this, arguments);
+        return this.renderPromise = $J._.result(this, 'renderPromise');
+      },
       resolveDependency: function(root){
         var stack, result, that, i$, len$, dep;
         stack = [root, 'layout/default'];
@@ -49,6 +53,9 @@
           }
         });
         return promise;
+      },
+      renderPromise: function(){
+        return $J.Deferred.listen(this, ['$J:render:full:done']);
       },
       reloadMe: function(){
         var this$ = this;

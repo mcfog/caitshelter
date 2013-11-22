@@ -13,10 +13,11 @@
         this.sync('me', app.me);
         x0$ = resources = [];
         x0$.push(MetaVM.rune());
-        x0$.push(app.me.request('rune', 'GetUserRunes'));
-        return (ref$ = Joint.Deferred).when.apply(ref$, resources).then(function(RUNE, arg$){
+        x0$.push(app.me.getUserRunes());
+        x0$.push(Joint.Deferred.listen(this, ['$J:render:full:done']));
+        return (ref$ = Joint.Deferred).when.apply(ref$, resources).then(function(RUNE, Runes){
           this$.data.RUNE = RUNE;
-          this$.Runes = arg$.Runes;
+          this$.Runes = Runes;
           return this$.redrawRunes();
         });
       },

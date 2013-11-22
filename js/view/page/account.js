@@ -16,22 +16,6 @@
         Base.prototype.initialize.apply(this, arguments);
         Base.global.me = app.me = null;
         x0$ = this.vm = accountVM;
-        x0$.collection.once('sync', function(it){
-          var that, account;
-          if (it !== this$.vm.collection) {
-            return;
-          }
-          if (that = localStorage.lastAccountId) {
-            account = this$.vm.collection.get(that);
-            return this$.login(account).then(function(){
-              return this$.enter(account);
-            });
-          } else {
-            if (that = this$.vm.collection.at(0)) {
-              return this$.login(that);
-            }
-          }
-        });
         this.sync('accounts', x0$);
         return this.on('$J:render:full:done', function(){
           return this$.$('.nickname').popover();

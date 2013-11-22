@@ -4,14 +4,12 @@
     ViewModel = arg$.ViewModel;
     AccVM = ViewModel.extend({
       collection: new AccCollection,
-      initialize: function(){
+      connect: function(){
         var this$ = this;
-        this.collection.on('sync remove', function(){
+        this.listenTo(this.collection, 'sync remove', function(){
           return this$.sync();
         });
-        return this.once('$J:sync:start', function(){
-          return this$.collection.fetch();
-        });
+        return this.collection.fetch();
       },
       toJSON: function(){
         return this.collection.map(function(it){

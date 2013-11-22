@@ -1,0 +1,5 @@
+define(["dust-runtime"],function (dust) {
+	// partial/deckeditor.dust
+	(function(){dust.register("partial/deckeditor",body_0);function body_0(chk,ctx){return chk.section(ctx.get("deck"),ctx,{"block":body_1},null);}function body_1(chk,ctx){return chk.write("<section class=\"panel panel-info\"><header class=\"panel-heading clearfix\"><span class=\"pull-left\">").reference(ctx.get("name"),ctx,"h").write("</span></header><div class=\"panel-body\"><div class=\"row\">").partial("partial/deck",ctx,null).write("</div><hr><div class=\"label").helper("gt",ctx,{"else":body_2,"block":body_3},{"key":ctx.get("cost"),"value":ctx.getPath(false,["me","info","LeaderShip"])}).write("\">Cost: ").reference(ctx.get("cost"),ctx,"h").write("/").reference(ctx.getPath(false,["me","info","LeaderShip"]),ctx,"h").write("</div></div></section>");}function body_2(chk,ctx){return chk.write(" label-success");}function body_3(chk,ctx){return chk.write(" label-danger");}return body_0;})();
+	return "partial/deckeditor";
+});

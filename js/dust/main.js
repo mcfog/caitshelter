@@ -1,5 +1,5 @@
 define(["dust-runtime"],function (dust) {
 	// main.dust
-	(function(){dust.register("main",body_0);function body_0(chk,ctx){return chk.write("<style>.modal {overflow-y: auto;}body.modal-open {margin-right: 0;}</style><div id=\"body\"></div>");}return body_0;})();
+	(function(){dust.register("main",body_0);function body_0(chk,ctx){return chk.write("<style>.modal {overflow-y: auto;}body.modal-open {margin-right: 0;}#loading {position: fixed;background: rgba(0,0,0,0.3);z-index: 999999;top: 0;bottom: 0;left: 0;right: 0;}#loading .progress {width: 70%;margin: 5em auto;}.panel-heading .btn {margin-top: -5px;margin-bottom: -5px;}.card {position: relative;}.card .cost {position: absolute;top: 0;right: 0;}.card .level {position: absolute;bottom: 0;left: 0;right: 0;background: rgba(53, 53, 53, 0.4);padding-left: 0;padding-right: 0;}</style><div id=\"loading\"><div class=\"progress progress-striped active\"><div class=\"progress-bar\" style=\"width:100%\">loading</div></div></div><div id=\"body\"></div>");}return body_0;})();
 	return "main";
 });

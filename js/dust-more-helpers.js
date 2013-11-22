@@ -72,6 +72,19 @@
       } else {
         return bodies.block(chunk, partialCtx);
       }
+    }, ref$.param = function(chunk, context, bodies, params){
+      var key, defaultVal, pKeyValue;
+      if (context.global && context.get('isPartial')) {
+        if (params) {
+          key = params.name;
+          defaultVal = params['default'];
+          pKeyValue = context.global[key];
+          if (key && typeof pKeyValue === 'undefined' && typeof defaultVal !== 'undefined') {
+            context.global[key] = defaultVal;
+          }
+        }
+      }
+      return chunk;
     }, ref$;
   });
   function bind$(obj, key){

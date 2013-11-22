@@ -82,11 +82,11 @@
         };
       }
     });
-    x0$ = app = window.app = new Router();
+    x0$ = app = window.a = new Router();
     x0$.routeN('#@.*#', function(){
       return app.replace('home');
     });
-    for (i$ = 0, len$ = (ref$ = ['fightrank', 'maze', 'friend', 'gvg', 'boss', 'salary', 'thief', 'my/deck', 'my/card', 'my/rune', 'home']).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = ['fightrank', 'maze', 'friend', 'gvg', 'boss', 'salary', 'thief', 'my/deck', 'my/card', 'my/rune', 'my/localdeck', 'home']).length; i$ < len$; ++i$) {
       name = ref$[i$];
       x0$.routeN(name, login(page(name)));
     }
@@ -98,19 +98,28 @@
       return Backbone.history.start();
     });
     x1$.render();
+    if (typeof window.__defineGetter__ == 'function') {
+      window.__defineGetter__('contentView', function(){
+        return app.main._subviews['#body'][0];
+      });
+    }
     function page(name){
       return function(args){
         return require(["view/page/" + name], function(pageView){
           var page, this$ = this;
+          app.main.loadin();
           page = new pageView({
             args: args
           });
           if (!app.main._sync.me && app.me) {
             app.main.sync('me', app.me);
           }
-          app.main.setView('#body', page);
-          return page.renderElement().then(function(){
+          page.renderElement().then(function(){
             return app.main.highlightHash("#" + name);
+          });
+          return _.result(page, 'renderPromise').then(function(){
+            app.main.loadout();
+            return app.main.setView('#body', page);
           });
         });
       };
