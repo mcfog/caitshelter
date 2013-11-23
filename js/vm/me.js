@@ -85,6 +85,8 @@
         x0$ = this.emit('request', args);
         x0$.then(function(){
           return app.main.loadout();
+        }, function(){
+          return app.main.loadout();
         });
         return x0$;
       }
