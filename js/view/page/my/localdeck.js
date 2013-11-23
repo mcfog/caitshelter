@@ -10,7 +10,8 @@
         'click .btn-goto': 'onGoto',
         'click .btn-delete': 'onDelete',
         'click .btn-rename': 'onRename',
-        'click .btn-editcard': 'onEditCard'
+        'click .btn-editcard': 'onEditCard',
+        'click .btn-editrune': 'onEditRune'
       },
       initialize: function(){
         Base.prototype.initialize.apply(this, arguments);
@@ -141,6 +142,15 @@
         }
         app.me.deck = target;
         return app.go('my', 'card');
+      },
+      onEditRune: function(event){
+        var target;
+        target = this._target(event);
+        if (!target) {
+          return;
+        }
+        app.me.deck = target;
+        return app.go('my', 'rune');
       },
       onGoto: function(event){
         var target, ref$;

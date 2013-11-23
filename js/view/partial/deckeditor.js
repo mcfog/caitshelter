@@ -4,7 +4,9 @@
       template: 'partial/deckeditor',
       events: {
         'click .card': 'onClickCard',
-        'click .btn-uncard': 'onUnCard'
+        'click .btn-uncard': 'onUnCard',
+        'click .rune': 'onClickRune',
+        'click .btn-unrune': 'onUnRune'
       },
       initialize: function(options){
         this.options = options;
@@ -26,6 +28,22 @@
         ucid = this.$(event.currentTarget).closest('[ucid]').attr('ucid');
         deck = this.getDeck();
         return deck.uncard(ucid);
+      },
+      onClickRune: function(event){
+        var $rune;
+        $rune = this.$(event.currentTarget);
+        this.$('.btn-unrune').remove();
+        return Joint.$(document.createElement('div')).addClass('btn-unrune btn btn-danger').css({
+          position: 'absolute',
+          top: 0,
+          left: 0
+        }).text('卸下').appendTo($rune);
+      },
+      onUnRune: function(event){
+        var urid, deck;
+        urid = this.$(event.currentTarget).closest('[urid]').attr('urid');
+        deck = this.getDeck();
+        return deck.unrune(urid);
       },
       serializeData: function(){
         var data, deck, x0$;
