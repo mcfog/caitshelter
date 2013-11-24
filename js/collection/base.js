@@ -1,17 +1,11 @@
 (function(){
-  define(['backbone', 'backbone.joint', 'backbone.localStorage'], function(Backbone, Joint){
+  define(['backbone', 'util/sync'], function(Backbone, sync){
     var Base;
-    Base = Backbone.Collection.extend({});
-    Object.defineProperty(Base.prototype, 'localStorage', {
-      configurable: true,
-      get: function(){
-        var x0$;
-        x0$ = new Backbone.LocalStorage(Joint._.result(this, 'name'));
-        Object.defineProperty(this, 'localStorage', {
-          value: x0$
-        });
-        return x0$;
-      }
+    Base = Backbone.Collection.extend({
+      sync: sync,
+      model: Backbone.Model.extend({
+        sync: sync
+      })
     });
     return Base;
   });

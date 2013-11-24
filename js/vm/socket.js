@@ -1,12 +1,12 @@
 (function(){
   var slice$ = [].slice;
-  define(['backbone.joint', 'socket.io'], function(Joint, io){
+  define(['backbone.joint', 'socket.io', 'model/option'], function(Joint, io, Option){
     var SocketVM;
     SocketVM = Joint.ViewModel.extend({
       initialize: function(){
         var this$ = this;
         Joint.ViewModel.prototype.initialize.apply(this, arguments);
-        this.socket = io.connect(localStorage.server);
+        this.socket = io.connect(Option.get('server'));
         return this.socket.on('progress', function(it){
           return this$.trigger('progress', it);
         });

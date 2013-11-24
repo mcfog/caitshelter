@@ -1,14 +1,14 @@
 (function(){
   var slice$ = [].slice;
-  define(['view/main', 'backbone', 'lodash'], function(MainView, Backbone, _){
+  define(['view/main', 'backbone', 'lodash', 'model/option'], function(MainView, Backbone, _, Option){
     var that, Router, x0$, app, i$, ref$, len$, name, x1$;
-    if (!localStorage.hasOwnProperty('server')) {
+    if (Option.get('server') === undefined) {
       switch (that = location.host) {
       case 'caitshelter.ap01.aws.af.cm':
-        localStorage.server = that;
+        Option.set('server', that);
         break;
       case 'cait.aws.af.cm':
-        localStorage.server = that;
+        Option.set('server', that);
         break;
       default:
         return location.href = "index.html";

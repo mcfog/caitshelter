@@ -74,7 +74,6 @@
       enter: function(it){
         var this$ = this;
         Base.global.me = app.me = it.me;
-        localStorage.lastAccountId = it.id;
         return Base.global.me.getInfo().then(function(){
           return app.go('home');
         });

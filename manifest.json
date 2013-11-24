@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Caitshelter",
+  "version": "0.1",
+  "icons": {
+    "128": "image/icon.png"
+  },
+
+  "content_security_policy": "script-src 'self' https://www.google-analytics.com/; object-src 'self'",
+  "permissions": [
+    "http://caitshelter.ap01.aws.af.cm/*",
+    "http://cait.aws.af.cm/*",
+    "http://localhost/*",
+    "storage"
+  ],
+  "app": {
+    "background": {
+      "persistent": false,
+      "scripts": ["js/chrome-app-boot.js"]
+    }
+  }
+}

@@ -1,5 +1,5 @@
 (function(){
-  define(['backbone', 'backbone.joint'], function(Backbone, Joint){
+  define(['backbone', 'backbone.joint', 'util/sync'], function(Backbone, Joint, sync){
     return Backbone.Model.extend({
       uncard: function(ucid){
         this.set('ucids', Joint._.filter(this.get('ucids'), function(it){
@@ -32,7 +32,8 @@
         x0$.push(urid);
         this.set('urids', Joint._.uniq(urids));
         return this.save();
-      }
+      },
+      sync: sync
     });
   });
 }).call(this);
