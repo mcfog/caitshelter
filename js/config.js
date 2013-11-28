@@ -31,8 +31,3 @@ var require = {
   // },
   baseUrl: 'js/'
 };
-
-
-if(chrome && chrome.storage && chrome.storage.local) {
-  Object.defineProperty(window, 'localStorage', {value: chrome.storage.local})
-}
