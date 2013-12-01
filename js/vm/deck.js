@@ -44,7 +44,11 @@
           x0$.Cards = _.map(deck.get('ucids'), findCard);
           x0$.Runes = _.map(deck.get('urids'), findRune);
           x0$.cost = _.reduce(x0$.Cards, function(sum, card){
-            return sum + parseInt(CARD[card.CardId].Cost);
+            if (card.Evolution && card.Evolution > 0) {
+              return sum + parseInt(CARD[card.CardId].EvoCost);
+            } else {
+              return sum + parseInt(CARD[card.CardId].Cost);
+            }
           }, 0);
           return x0$;
         });
