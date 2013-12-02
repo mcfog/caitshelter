@@ -41,8 +41,8 @@
             });
           }
           x0$ = deck.toJSON();
-          x0$.Cards = _.map(deck.get('ucids'), findCard);
-          x0$.Runes = _.map(deck.get('urids'), findRune);
+          x0$.Cards = _.compact(_.map(deck.get('ucids'), findCard));
+          x0$.Runes = _.compact(_.map(deck.get('urids'), findRune));
           x0$.cost = _.reduce(x0$.Cards, function(sum, card){
             if ((card != null ? card.Evolution : void 8) > 0) {
               return sum + parseInt(CARD[card.CardId].EvoCost);
