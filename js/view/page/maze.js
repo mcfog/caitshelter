@@ -63,6 +63,9 @@
         function finish(){
           this$.data.mazing = false;
           this$.fetchInfo();
+          app.me.getInfo().then(function(){
+            return this$.renderFields('me', 'info');
+          });
           return render();
         }
         function render(){

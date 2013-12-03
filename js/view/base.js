@@ -7,6 +7,7 @@
       'page/my/rune': ['partial/myNav', 'partial/runeFilter', 'partial/rune'],
       'page/friend': ['partial/myNav', 'partial/deck'],
       'page/maze': ['partial/card'],
+      'page/dungeon': ['partial/card'],
       'partial/deck': ['partial/card', 'partial/rune']
     };
     x0$ = Base = $J.View.extend({
