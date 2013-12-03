@@ -5,11 +5,34 @@
     return Base.extend({
       template: 'page/dungeon',
       events: {
-        'click .btn-fight': 'onFight'
+        'click .btn-fight': 'onFight',
+        'click .btn-sweep': 'onSweep'
       },
       initialize: function(){
         Base.prototype.initialize.apply(this, arguments);
         return this.getStatus();
+      },
+      onSweep: function(event){
+        var this$ = this;
+        return Joint.Deferred.when(app.me.request('dungeon', 'Sweep'), Base.fetchGlobal()).then(function(it){
+          var CARD, A, msg;
+          CARD = Base.global.CARD;
+          A = it.Award;
+          msg = ['扫荡成果'];
+          msg.push("金币" + A.Coins);
+          msg.push("经验" + A.Exp);
+          msg.push("怒气" + A.Anger);
+          _.each(A.Cards, function(it){
+            return msg.push("卡牌 " + CARD[it.CardId].CardName + " * " + it.Num);
+          });
+          _.each(A.Chips, function(it){
+            return msg.push("碎片 " + CARD[it.ChipId].CardName + " * " + it.Num);
+          });
+          return bootbox.alert(msg.join('<br>'));
+        }, function(it){
+          var ref$;
+          return bootbox.alert(((ref$ = it.content) != null ? ref$.message : void 8) || '连接失败');
+        });
       },
       onFight: function(event){
         var layer, this$ = this;
@@ -45,7 +68,7 @@
         return app.me.request('dungeon', 'GetUserDungeon').then(function(it){
           var x0$;
           x0$ = this$.data.status = it;
-          x0$.layer = x0$.UserDungeon.CurrentLayer + 1;
+          x0$.layer = 1 + parseInt(x0$.UserDungeon.CurrentLayer);
           x0$.Condition = _.indexBy(x0$.DungeonConditions, 'Layer')[x0$.layer];
           return this$.renderFields('', 'status');
         });
