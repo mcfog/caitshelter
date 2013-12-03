@@ -53,6 +53,9 @@
             x2$.CardName = x2$.CardName + " x " + chip.Num;
             return x2$;
           });
+          x0$.AwardCards = _.map(x0$.AwardCards, function(card){
+            return card = _.extend({}, card, Base.global.CARD[card]);
+          });
           return x0$;
         }).then(function(){
           return this$.getStatus();
