@@ -1,42 +1,54 @@
 (function(){
-  define(['view/base', 'app', 'bootbox'], function(Base, app, bootbox){
+  define(['view/base', 'app', 'bootbox', 'backbone.joint'], function(Base, app, bootbox, Joint){
+    var _;
+    _ = Joint._;
     return Base.extend({
       template: 'page/friend',
       events: {
-        'submit form[name=search]': 'onSubmit',
-        'click .btn-inspect': 'onInspect'
+        'click .btn-show': 'onShow',
+        'click .btn-give': 'onGive',
+        'click .btn-take': 'onTake'
       },
-      onSubmit: function(event){
-        var NickName, this$ = this;
-        NickName = this.$('input[name=nickname]').val();
-        app.me.request('friend', 'Search', {
-          NickName: NickName
-        }).then(function(arg$){
-          this$.data.Friends = arg$.Friends;
-          return this$.renderFields('', 'Friends');
-        });
-        return event.preventDefault();
+      initialize: function(){
+        Base.prototype.initialize.apply(this, arguments);
+        return this.getFriends();
       },
-      onInspect: function(event){
-        var uid, this$ = this;
-        uid = this.$(event.currentTarget).closest('[uid]').attr('uid');
-        return Base.fetchGlobal().then(function(){
-          return app.me.request('arena', 'FreeFight', {
-            isManual: 0,
-            NoChip: 1,
-            Competitor: uid
-          });
-        }).then(function(it){
-          this$.data.deck = it.DefendPlayer;
-          console.log(it);
-          this$.renderFields('', 'deck');
-          return this$.once('$J:render:part:done', function(){
-            return bootbox.dialog({
-              message: this$.$('.deck'),
-              title: '卡组查看'
-            });
-          });
+      onShow: function(event){
+        this.$(event.currentTarget).addClass('fade');
+        return this.getFriends();
+      },
+      onGive: function(event){
+        var uid;
+        if (!(uid = this._uid(event))) {
+          return;
+        }
+        return app.me.request('fenergy', 'SendFEnergy', {
+          Fid: uid
         });
+      },
+      onTake: function(event){
+        var uid;
+        if (!(uid = this._uid(event))) {
+          return;
+        }
+        return app.me.request('fenergy', 'GetFEnergy', {
+          Fid: uid
+        });
+      },
+      _uid: function(event){
+        var $t;
+        $t = this.$(event.currentTarget).addClass('fade');
+        return parseInt($t.closest('[uid]').attr('uid'));
+      },
+      getFriends: function(){
+        var this$ = this;
+        return app.me.request("friend", "GetFriends").then(function(it){
+          return this$.updateInfo(it);
+        });
+      },
+      updateInfo: function(info){
+        this.data.info = info;
+        return this.renderFields('', 'info');
       }
     });
   });
