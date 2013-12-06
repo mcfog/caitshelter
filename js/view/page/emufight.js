@@ -50,7 +50,7 @@
         };
         $form = Joint.$('<form>').attr({
           method: 'POST',
-          action: 'mkhxcc/PlayAutoMassiveGame',
+          action: Option.get('server') + "/mkhxcc/PlayAutoMassiveGame",
           target: '_blank'
         });
         Joint._.each(data, function(value, name){
