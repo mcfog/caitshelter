@@ -86,7 +86,7 @@
     x0$.routeN('#@.*#', function(){
       return app.replace('home');
     });
-    for (i$ = 0, len$ = (ref$ = ['fightrank', 'maze', 'usersearch', 'gvg', 'boss', 'salary', 'thief', 'dungeon', 'gou', 'friend', 'my/deck', 'my/card', 'my/rune', 'my/localdeck', 'home', 'raw']).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = ['fightrank', 'maze', 'usersearch', 'emufight', 'gvg', 'boss', 'salary', 'thief', 'dungeon', 'gou', 'friend', 'my/deck', 'my/card', 'my/rune', 'my/localdeck', 'home', 'raw']).length; i$ < len$; ++i$) {
       name = ref$[i$];
       x0$.routeN(name, login(page(name)));
     }
@@ -114,7 +114,8 @@
           if (!app.main._sync.me && app.me) {
             app.main.sync('me', app.me);
           }
-          page.renderElement().then(function(){
+          page.renderElement();
+          page.on('$J:render:done', function(){
             return app.main.highlightHash("#" + name);
           });
           return _.result(page, 'renderPromise').then(function(){

@@ -1,19 +1,23 @@
 (function(){
-  define(['backbone.joint', 'dust-runtime', 'lodash', 'vm/meta', 'bootstrap', 'dust-helpers', 'dust-more-helpers'], function($J, dust, _, MetaVM){
-    var dependencies, x0$, Base, ctx;
+  define(['backbone.joint', 'dust-runtime', 'vm/meta', 'app', 'bootstrap', 'dust-helpers', 'dust-more-helpers'], function(Joint, dust, MetaVM){
+    var _, dependencies, x0$, Base, ctx;
+    _ = Joint._;
     dependencies = {
       'page/my/card': ['partial/myNav', 'partial/cardFilter', 'partial/card'],
       'page/my/deck': ['partial/myNav', 'partial/deck'],
+      'page/my/localdeck': ['partial/myNav', 'partial/localdeck'],
       'page/my/rune': ['partial/myNav', 'partial/runeFilter', 'partial/rune'],
-      'page/friend': ['partial/myNav', 'partial/deck'],
+      'page/usersearch': ['partial/deck'],
       'page/maze': ['partial/card'],
       'page/dungeon': ['partial/card'],
-      'partial/deck': ['partial/card', 'partial/rune']
+      'partial/deck': ['partial/card', 'partial/rune'],
+      'partial/deckeditor': ['partial/localdeck'],
+      'partial/localdeck': ['partial/deck']
     };
-    x0$ = Base = $J.View.extend({
+    x0$ = Base = Joint.View.extend({
       initialize: function(){
-        $J.View.prototype.initialize.apply(this, arguments);
-        return this.renderPromise = $J._.result(this, 'renderPromise');
+        Joint.View.prototype.initialize.apply(this, arguments);
+        return this.renderPromise = Joint._.result(this, 'renderPromise');
       },
       resolveDependency: function(root){
         var stack, result, that, i$, len$, dep;
@@ -32,7 +36,7 @@
       },
       fetchTemplate: function(){
         var ref$, resolver, promise, reqs, i$, ref1$, len$, partial;
-        ref$ = $J.Deferred.defer(), resolver = ref$.resolver, promise = ref$.promise;
+        ref$ = Joint.Deferred.defer(), resolver = ref$.resolver, promise = ref$.promise;
         reqs = ["dust/" + this.template];
         for (i$ = 0, len$ = (ref1$ = this.resolveDependency(this.template)).length; i$ < len$; ++i$) {
           partial = ref1$[i$];
@@ -45,7 +49,7 @@
       },
       renderHtml: function(name, data){
         var ref$, resolver, promise;
-        ref$ = $J.Deferred.defer(), resolver = ref$.resolver, promise = ref$.promise;
+        ref$ = Joint.Deferred.defer(), resolver = ref$.resolver, promise = ref$.promise;
         dust.render(name, ctx.push(data), function(err, out){
           if (err) {
             return resolver.reject(err);
@@ -56,7 +60,7 @@
         return promise;
       },
       renderPromise: function(){
-        return $J.Deferred.listen(this, ['$J:render:full:done']);
+        return Joint.Deferred.listen(this, ['$J:render:full:done']);
       },
       reloadMe: function(){
         var this$ = this;
@@ -65,6 +69,21 @@
         }
         return Base.global.me.getInfo().then(function(){
           return this$.renderFields('me', 'info');
+        });
+      },
+      mixin: function(Mixin, option){
+        return new Mixin(_.extend({
+          el: this.el
+        }, option));
+      },
+      setEmuPlayer: function(p, level, deck){
+        var app, this$ = this;
+        app = require('app');
+        app.me["emu" + p] = level + ":" + deck;
+        return bootbox.confirm("已经设定为模拟玩家" + p + "，是否前往模拟战斗？", function(it){
+          if (it) {
+            return app.go('emufight');
+          }
         });
       }
     }, {
@@ -75,7 +94,7 @@
       },
       fetchGlobal: function(){
         var this$ = this;
-        return $J.Deferred.when(MetaVM.card(), MetaVM.skill(), MetaVM.rune()).then(function(CARD, SKILL, RUNE){
+        return Joint.Deferred.when(MetaVM.card(), MetaVM.skill(), MetaVM.rune()).then(function(CARD, SKILL, RUNE){
           this$.global.CARD = CARD;
           this$.global.SKILL = SKILL;
           this$.global.RUNE = RUNE;

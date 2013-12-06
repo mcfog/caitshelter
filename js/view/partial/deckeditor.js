@@ -1,17 +1,21 @@
 (function(){
-  define(['view/base', 'vm/deck', 'backbone.joint'], function(Base, DeckVM, Joint){
+  define(['view/base', 'vm/deck', 'backbone.joint', 'view/mixin/localdeck_toolbar', 'app'], function(Base, DeckVM, Joint, Toolbar, app){
     return Base.extend({
       template: 'partial/deckeditor',
       events: {
         'click .card': 'onClickCard',
         'click .btn-uncard': 'onUnCard',
         'click .rune': 'onClickRune',
-        'click .btn-unrune': 'onUnRune'
+        'click .btn-unrune': 'onUnRune',
+        'click .btn-endedit': 'onEndEdit'
       },
       initialize: function(options){
         this.options = options;
         Base.prototype.initialize.apply(this, arguments);
-        return this.sync('deck', this.deck = new DeckVM());
+        this.sync('deck', this.deck = new DeckVM());
+        return this.mixin(Toolbar, {
+          deck: this.deck
+        });
       },
       onClickCard: function(event){
         var $card;
@@ -44,6 +48,10 @@
         urid = this.$(event.currentTarget).closest('[urid]').attr('urid');
         deck = this.getDeck();
         return deck.unrune(urid);
+      },
+      onEndEdit: function(event){
+        delete app.me.deck;
+        return this.renderElement();
       },
       serializeData: function(){
         var data, deck, x0$;

@@ -6,7 +6,9 @@
         var x0$, this$ = this;
         x0$ = this.collection = app.me.getDeckCollection();
         this.listenTo(x0$, 'sync remove', function(){
-          return this$.sync();
+          return setTimeout(function(){
+            return this$.sync();
+          });
         });
         Joint._.each(['create', 'fetch', 'findWhere'], function(fn){
           return this$[fn] = function(){
@@ -25,6 +27,64 @@
         });
       }
     }, {
+      myDeckToPlayer: function(deck){
+        var this$ = this;
+        return Joint.Deferred.when(app.me.getUserCards(), app.me.getUserRunes()).then(function(UserCards, UserRunes){
+          var Runes, Cards;
+          Runes = _.compact(_.map(deck.get('urids'), function(urid){
+            return _.findWhere(UserRunes, function(it){
+              return it.UserRuneId == urid;
+            });
+          }));
+          Cards = _.compact(_.map(deck.get('ucids'), function(ucid){
+            return _.findWhere(UserCards, function(it){
+              return it.UserCardId == ucid;
+            });
+          }));
+          return {
+            Runes: Runes,
+            Cards: Cards
+          };
+        });
+      },
+      dumpPlayerDeck: function(arg$){
+        var Runes, Cards, this$ = this;
+        Runes = arg$.Runes, Cards = arg$.Cards;
+        return Joint.Deferred.when(MetaVM.card(), MetaVM.rune(), MetaVM.skill()).then(function(CARD, RUNE, SKILL){
+          var result;
+          result = [];
+          _.each(Runes, function(urune){
+            var rune, level;
+            rune = RUNE[parseInt(urune.RuneId)];
+            if (!rune) {
+              return;
+            }
+            level = urune.Level != 4 && "-" + urune.Level || '';
+            return result.push(rune.RuneName + "" + level);
+          });
+          _.each(Cards, function(ucard){
+            var card, skill, level;
+            card = CARD[ucard.CardId];
+            if (!card) {
+              return;
+            }
+            skill = SKILL[ucard.SkillNew];
+            skill = skill && "+" + skill.Name.replace(/[\[\]]/g, '') || '';
+            level = (function(){
+              switch (false) {
+              case !(ucard.Evolution > 0 && ucard.Level == 15):
+                return '';
+              case !((!ucard.Evolution || ucard.Evolution == 0) && ucard.Level == 10):
+                return '';
+              default:
+                return "-" + ucard.Level;
+              }
+            }());
+            return result.push(card.CardName + "" + skill + level);
+          });
+          return result.join(',');
+        });
+      },
       serializeDeck: function(deck){
         var this$ = this;
         return Joint.Deferred.when(app.me.getUserCards(), app.me.getUserRunes(), MetaVM.card()).then(function(cards, runes, CARD){
