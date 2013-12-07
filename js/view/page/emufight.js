@@ -1,5 +1,5 @@
 (function(){
-  define(['view/base', 'app', 'backbone.joint', 'bootbox'], function(Base, app, Joint, bootbox){
+  define(['view/base', 'app', 'backbone.joint', 'bootbox,', 'model/option'], function(Base, app, Joint, bootbox, Option){
     var GvgView;
     return GvgView = Base.extend({
       template: 'page/emufight',
