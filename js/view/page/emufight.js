@@ -5,8 +5,8 @@
       template: 'page/emufight',
       events: {
         'click .btn-fight': 'onFight',
-        'change .player1 :input, player2 :input': 'onChange',
-        'input .player1 :input, player2 :input': 'onChange'
+        'change .player1 :input, .player2 :input': 'onChange',
+        'input .player1 :input, .player2 :input': 'onChange'
       },
       initialize: function(){
         var this$ = this;
