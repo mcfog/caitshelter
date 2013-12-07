@@ -1,12 +1,13 @@
 (function(){
-  define(['view/base', 'app', 'backbone.joint', 'vm/meta', 'bootbox'], function(Base, app, Joint, MetaVM, bootbox){
+  define(['view/base', 'app', 'backbone.joint', 'vm/meta', 'bootbox', 'vm/deck'], function(Base, app, Joint, MetaVM, bootbox, DeckVM){
     var _;
     _ = Joint._;
     return Base.extend({
       template: 'page/dungeon',
       events: {
         'click .btn-fight': 'onFight',
-        'click .btn-sweep': 'onSweep'
+        'click .btn-sweep': 'onSweep',
+        'click .btn-emu': 'onEmu'
       },
       initialize: function(){
         Base.prototype.initialize.apply(this, arguments);
@@ -34,9 +35,37 @@
           return bootbox.alert(((ref$ = it.content) != null ? ref$.message : void 8) || '连接失败');
         });
       },
+      onEmu: function(event){
+        var Layer, p, this$ = this;
+        Layer = parseInt(this.$(event.currentTarget).closest('[layer]').attr('layer'));
+        if (!Layer) {
+          return;
+        }
+        p = parseInt(this.$(event.currentTarget).attr('p'));
+        if (!p) {
+          return;
+        }
+        return app.me.request('dungeon', 'GetStrategy', {
+          Layer: Layer
+        }).then(function(it){
+          var BattleId, ref$;
+          BattleId = (ref$ = it.pop()) != null ? ref$.Url.match(/BattleId=(\w+)/)[1] : void 8;
+          if (!BattleId) {
+            return bootbox.alert('没有人通过此关，脸帝你个变态！');
+          }
+          return app.me.request('dungeon', 'ShowRecord', {
+            Layer: Layer,
+            BattleId: BattleId
+          });
+        }).then(function(it){
+          return Joint.Deferred.when(it.DefendPlayer.Level, DeckVM.dumpPlayerDeck(it.DefendPlayer));
+        }).then(function(level, deck){
+          return this$.setEmuPlayer(p, level, deck);
+        });
+      },
       onFight: function(event){
         var layer, this$ = this;
-        layer = parseInt(this.$(event.currentTarget).attr('layer'));
+        layer = parseInt(this.$(event.currentTarget).closest('[layer]').attr('layer'));
         if (!layer) {
           return;
         }
