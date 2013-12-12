@@ -23,8 +23,8 @@
         var this$ = this;
         this._load++;
         return this._load_tout = setTimeout(function(){
-          return this$.$('#loading').fadeIn();
-        }, 100);
+          return this$.$('#loading').stop(true, true).fadeIn();
+        }, 300);
       },
       loadout: function(){
         this._load--;
@@ -32,7 +32,7 @@
           return;
         }
         clearTimeout(this._load_tout);
-        return this.$('#loading').fadeOut('fast');
+        return this.$('#loading').stop(true, true).fadeOut('fast');
       }
     });
   });

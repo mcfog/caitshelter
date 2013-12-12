@@ -7,7 +7,8 @@
       events: {
         'click .btn-fight': 'onFight',
         'click .btn-sweep': 'onSweep',
-        'click .btn-emu': 'onEmu'
+        'click .btn-emu': 'onEmu',
+        'click .btn-auto': 'onAuto'
       },
       initialize: function(){
         Base.prototype.initialize.apply(this, arguments);
@@ -64,11 +65,37 @@
         });
       },
       onFight: function(event){
-        var layer, this$ = this;
+        var layer;
         layer = parseInt(this.$(event.currentTarget).closest('[layer]').attr('layer'));
         if (!layer) {
           return;
         }
+        return this.fight(layer);
+      },
+      onAuto: function(event){
+        var layer, limit;
+        layer = parseInt(this.$(event.currentTarget).closest('[layer]').attr('layer'));
+        if (!layer) {
+          return;
+        }
+        limit = parseInt(this.$(event.currentTarget).attr('limit'));
+        if (!limit) {
+          return;
+        }
+        return this.auto(layer, limit);
+      },
+      auto: function(layer, limit){
+        var this$ = this;
+        if (this.data.status.UserDungeon.Resurrection < limit) {
+          bootbox.alert('自动结束');
+          return;
+        }
+        return this.fight(layer).then(function(){
+          return this$.auto(layer + 1, limit);
+        });
+      },
+      fight: function(layer){
+        var this$ = this;
         return Joint.Deferred.when(app.me.request('dungeon', 'Fight', {
           isManual: 0,
           Layer: layer
