@@ -23,12 +23,15 @@
         var this$ = this;
         this._load++;
         return this._load_tout = setTimeout(function(){
+          if (this$._load === 0) {
+            return;
+          }
           return this$.$('#loading').stop(true, true).fadeIn();
         }, 300);
       },
       loadout: function(){
         this._load--;
-        if (this._load) {
+        if (this._load > 0) {
           return;
         }
         clearTimeout(this._load_tout);
