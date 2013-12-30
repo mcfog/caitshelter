@@ -86,7 +86,7 @@
     x0$.routeN('#@.*#', function(){
       return app.replace('home');
     });
-    for (i$ = 0, len$ = (ref$ = ['fightrank', 'maze', 'usersearch', 'emufight', 'gvg', 'boss', 'salary', 'thief', 'dungeon', 'think', 'gou', 'friend', 'my/deck', 'my/card', 'my/rune', 'my/localdeck', 'home', 'raw']).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = ['fightrank', 'maze', 'usersearch', 'emufight', 'gvg', 'boss', 'salary', 'thief', 'dungeon', 'think', 'gou', 'friend', 'map', 'my/deck', 'my/card', 'my/rune', 'my/localdeck', 'home', 'raw']).length; i$ < len$; ++i$) {
       name = ref$[i$];
       x0$.routeN(name, login(page(name)));
     }
