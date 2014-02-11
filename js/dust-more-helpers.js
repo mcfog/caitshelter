@@ -13,7 +13,15 @@
       s: '110_110_no',
       l: '220_220'
     };
-    return ref$ = dust.helpers, ref$.cardImg = function(chunk, context, bodies, params){
+    return ref$ = dust.helpers, ref$.shenglv = function(chunk, context, bodies, params){
+      var win, lose;
+      function tap(it){
+        return dust.helpers.tap(it, chunk, context);
+      }
+      win = parseInt(tap(params.win));
+      lose = parseInt(tap(params.lose));
+      return chunk.write((100 * win / (win + lose)).toFixed(2));
+    }, ref$.cardImg = function(chunk, context, bodies, params){
       var id, type;
       function tap(it){
         return dust.helpers.tap(it, chunk, context);
