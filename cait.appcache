@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 1392787859140
+# 1392791346896
 css/bootstrap-theme.css
 css/bootstrap-theme.min.css
 css/bootstrap.css
@@ -114,4 +114,7 @@ http://caitshelter.ap01.aws.af.cm/favicon.ico
 http://cait.aws.af.cm/socket.io/
 http://cait.aws.af.cm/favicon.ico
 http://*/socket.io/
+http://127.0.0.1/
+http://localhost/
+http://caitshelter.local/
 # --EOF-- #
